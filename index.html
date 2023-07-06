@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="index.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1>피아노</h1>
+            <div id="piano">
+                <div class="piano-key" data-frequency="261.63"><li>도</li></div>
+                <div class="piano1" data-frequency="250"></div>
+                <div class="piano-key" data-frequency="293.66"><li>레</li></div>
+                <div class="piano1" data-frequency=""></div>
+                <div class="piano-key" data-frequency="329.63"><li>미</li></div>
+                <div class="piano-key" data-frequency="349.23"><li>파</li></div>
+                <div class="piano1" data-frequency=""></div>
+                <div class="piano-key" data-frequency="392.00"><li>솔</li></div>
+                <div class="piano1" data-frequency=""></div>
+                <div class="piano-key" data-frequency="440.00"><li>라</li></div>
+                <div class="piano1" data-frequency=""></div>
+                <div class="piano-key" data-frequency="493.88"><li>시</li></div>
+                <div class="piano-key" data-frequency="503.88"><li>도</li></div>
+                <div class="piano1" data-frequency=""></div>
+                <div class="piano-key" data-frequency="553.88"><li>레</li></div>
+                <div class="piano1" data-frequency="261.66"></div>
+                <div class="piano-key" data-frequency="603.88"><li>미</li></div>
+                <div class="piano-key" data-frequency="653.88"><li>파</li></div>
+                <div class="piano1" data-frequency=""></div>
+                <div class="piano-key" data-frequency="703.88"><li>솔</li></div>
+                <div class="piano1" data-frequency=""></div>
+                <div class="piano-key" data-frequency="753.88"><li>라</li></div>
+                <div class="piano1" data-frequency=""></div>
+                <div class="piano-key" data-frequency="803.88"><li>시</li></div>
+            </div>
+        </div>
+
+        <script>
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+            function playSound(frequency) {
+                const oscillator = audioContext.createOscillator();
+                oscillator.type = 'sine';
+                oscillator.frequency.value = frequency;
+                oscillator.connect(audioContext.destination);
+                oscillator.start();
+                setTimeout(() => {
+                    oscillator.stop();
+                }, 200);
+            }
+
+            const pianoKeys = document.querySelectorAll('.piano-key,.piano1');
+
+            pianoKeys.forEach((key) => {
+                key.addEventListener('mousedown', function () {
+                    const frequency = parseFloat(this.dataset.frequency);
+                    this.classList.add('active');
+                    playSound(frequency);
+                });
+
+                key.addEventListener('mouseup', function () {
+                    this.classList.remove('active');
+                });
+
+                key.addEventListener('mouseleave', function () {
+                    this.classList.remove('active');
+                });
+            });
+        </script>
+    </body>
+</html>
